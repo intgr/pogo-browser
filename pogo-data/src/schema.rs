@@ -5,8 +5,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
-// FIXME not public?
-pub struct GameMasterTemplate {
+pub(crate) struct GameMasterTemplate {
     pub template_id: String,
     pub data: TemplateData,
 }
@@ -14,7 +13,7 @@ pub struct GameMasterTemplate {
 // FIXME this should be an `enum`
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct TemplateData {
+pub(crate) struct TemplateData {
     pub template_id: String,
     pub pokemon_settings: Option<PokemonSettings>,
     pub pokemon_family: Option<PokemonFamily>,

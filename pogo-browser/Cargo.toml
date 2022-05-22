@@ -1,0 +1,17 @@
+[package]
+name = "pogo-browser"
+version = "0.0.0"
+edition = "2021"
+
+# Metadata
+authors = ["Marti Raudsepp <marti@juffo.org>"]
+description = "Pokemon Go monsters browser"
+readme = "../README.md"
+license = "AGPL-3.0-or-later"
+#homepage = "https://github.com/intgr/..."
+#repository = "https://github.com/intgr/..."
+#keywords = []
+#categories = []
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

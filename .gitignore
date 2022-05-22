@@ -1,0 +1,6 @@
+Cargo.lock
+/target
+/_local
+/.idea
+/data/*.csv
+/data/*.json

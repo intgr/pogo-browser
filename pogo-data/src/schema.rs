@@ -21,6 +21,8 @@ pub(crate) struct TemplateData {
     pub pokemon_family: Option<PokemonFamily>,
     pub form_settings: Option<FormSettings>,
     pub gender_settings: Option<GenderSettings>,
+    pub combat_move: Option<CombatMove>,
+    pub move_settings: Option<MoveSettings>,
 }
 
 /** Pokemon: pokemonSettings */
@@ -292,4 +294,81 @@ pub enum MonsterGender {
         #[serde(default)]
         female_percent: f32,
     },
+}
+
+/** Trainer battles (e.g. Battle League) move settings: combatMove */
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct CombatMove {
+    pub unique_id: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    // Missing = no damage
+    #[serde(default)]
+    pub power: f32,
+    pub vfx_name: String,
+    /// Fast moves have positive `energy_delta`, charged moves have negative.
+    /// But Ditto's fast move Transform produces/consumes no energy.
+    #[serde(default)]
+    pub energy_delta: i32,
+    // Fast move
+    pub duration_turns: Option<i32>,
+    // Charged move
+    pub buffs: Option<MoveBuffs>,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct MoveBuffs {
+    #[serde(default)]
+    pub attacker_attack_stat_stage_change: i32,
+    #[serde(default)]
+    pub attacker_defense_stat_stage_change: i32,
+    #[serde(default)]
+    pub target_attack_stat_stage_change: i32,
+    #[serde(default)]
+    pub target_defense_stat_stage_change: i32,
+
+    pub buff_activation_chance: f32,
+}
+
+/** Gym battle & raid move settings: moveSettings */
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct MoveSettings {
+    pub movement_id: String,
+    pub animation_id: i32,
+    pub pokemon_type: String,
+    // Missing = no damage
+    #[serde(default)]
+    pub power: f32,
+    pub accuracy_chance: f32, // XXX Unused? Always 1.0
+    #[serde(default)]
+    pub critical_chance: f32, // Only charged moves
+
+    #[serde(default)]
+    pub heal_scalar: f32,
+    #[serde(default)]
+    pub stamina_loss_scalar: f32,
+    #[serde(default)]
+    pub trainer_level_min: u32, // XXX unused? Almost always 1
+    #[serde(default)]
+    pub trainer_level_max: u32, // XXX unused? Almost always 100
+
+    pub vfx_name: String,
+    pub duration_ms: u32,
+    pub damage_window_start_ms: u32,
+    pub damage_window_end_ms: u32,
+
+    /// Fast moves have positive `energy_delta`, charged moves have negative.
+    /// But Ditto's fast move Transform, and charge move Struggle produces/consumes no energy.
+    #[serde(default)]
+    pub energy_delta: i32,
+
+    /// Only Frustration -- move cannot be changed with TM
+    #[serde(default)]
+    pub is_locked: bool,
 }

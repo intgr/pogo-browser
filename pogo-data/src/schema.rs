@@ -2,18 +2,20 @@ use serde::de::IgnoredAny;
 use serde::Deserialize;
 
 /** Root structure (not public) */
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub(crate) struct GameMasterTemplate {
+    #[allow(dead_code)]
     pub template_id: String,
     pub data: TemplateData,
 }
 
 // FIXME this should be an `enum`
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct TemplateData {
+    #[allow(dead_code)]
     pub template_id: String,
     pub pokemon_settings: Option<PokemonSettings>,
     pub pokemon_family: Option<PokemonFamily>,

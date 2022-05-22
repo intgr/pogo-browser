@@ -99,13 +99,16 @@ pub struct PokemonSettings {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
-// XXX cannot use #[serde(deny_unknown_fields)]
+#[serde(deny_unknown_fields)]
 pub enum MonsterBaseStats {
+    #[serde(rename_all = "camelCase")]
     Some {
         base_stamina: u32,
         base_attack: u32,
         base_defense: u32,
     },
+    /// Monsters that aren't available in PoGo have missing base stats.
+    #[serde(rename_all = "camelCase")]
     Missing {},
 }
 
@@ -131,13 +134,31 @@ pub struct MonsterShadow {
 
 #[derive(Deserialize, Debug)]
 #[serde(untagged)]
-// XXX #[serde(deny_unknown_fields)] doesn't work
+#[serde(deny_unknown_fields)]
 pub enum MonsterEvolution {
     #[serde(rename_all = "camelCase")]
     Evolution {
-        evolution: String, // Pokemon name
-        candy_cost: u32,
+        evolution: String,    // Pokemon name
         form: Option<String>, // Form name
+        priority: Option<u32>,
+        // Evolution requirements
+        candy_cost: u32,
+        #[serde(default)]
+        no_candy_cost_via_trade: bool,
+        evolution_item_requirement: Option<String>,
+        lure_item_requirement: Option<String>,
+        km_buddy_distance_requirement: Option<f32>,
+        gender_requirement: Option<String>,
+        #[serde(default)]
+        must_be_buddy: bool,
+        #[serde(default)]
+        only_daytime: bool,
+        #[serde(default)]
+        only_nighttime: bool,
+        #[serde(default)]
+        only_upside_down: bool,
+        #[serde(default)]
+        quest_display: Vec<EvolutionQuestDisplay>,
         ob_purification_evolution_candy_cost: Option<u32>,
     },
     // XXX ugly, but stricter than making all fields optional
@@ -150,7 +171,15 @@ pub enum MonsterEvolution {
         temporary_evolution: String, // "TEMP_EVOLUTION_MEGA",
         temporary_evolution_energy_cost: u32,
         temporary_evolution_energy_cost_subsequent: u32,
+        ob_purification_evolution_candy_cost: Option<u32>,
     },
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct EvolutionQuestDisplay {
+    pub quest_requirement_template_id: String,
 }
 
 #[derive(Deserialize, Debug)]
@@ -251,11 +280,11 @@ pub struct GenderSettings {
 
 #[derive(Deserialize, Debug)]
 #[serde(untagged)]
-// XXX #[serde(deny_unknown_fields)] doesn't work
+#[serde(deny_unknown_fields)]
 pub enum MonsterGender {
-    Genderless {
-        genderless_percent: f32,
-    },
+    #[serde(rename_all = "camelCase")]
+    Genderless { genderless_percent: f32 },
+    #[serde(rename_all = "camelCase")]
     Gendered {
         #[serde(default)]
         male_percent: f32,
@@ -263,19 +292,3 @@ pub enum MonsterGender {
         female_percent: f32,
     },
 }
-
-//
-// #[derive(Deserialize, Debug)]
-// #[serde(rename_all = "camelCase")]
-// pub struct MonsterGendeless {
-//     genderless_percent: f32,
-// }
-//
-// #[derive(Deserialize, Debug)]
-// #[serde(rename_all = "camelCase")]
-// pub struct MonsterGendered {
-//     #[serde(default = 0)]
-//     male_percent: f32,
-//     #[serde(default = 0)]
-//     female_percent: f32,
-// }

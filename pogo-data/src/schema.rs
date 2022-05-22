@@ -1,6 +1,55 @@
 use serde::de::IgnoredAny;
 use serde::Deserialize;
 
+/* Reusable enums */
+#[derive(Deserialize, Debug, PartialEq, PartialOrd, Hash)]
+pub enum MonsterType {
+    #[serde(rename = "POKEMON_TYPE_BUG")]
+    Bug,
+    #[serde(rename = "POKEMON_TYPE_DARK")]
+    Dark,
+    #[serde(rename = "POKEMON_TYPE_DRAGON")]
+    Dragon,
+    #[serde(rename = "POKEMON_TYPE_ELECTRIC")]
+    Electric,
+    #[serde(rename = "POKEMON_TYPE_FAIRY")]
+    Fairy,
+    #[serde(rename = "POKEMON_TYPE_FIGHTING")]
+    Fighting,
+    #[serde(rename = "POKEMON_TYPE_FIRE")]
+    Fire,
+    #[serde(rename = "POKEMON_TYPE_FLYING")]
+    Flying,
+    #[serde(rename = "POKEMON_TYPE_GHOST")]
+    Ghost,
+    #[serde(rename = "POKEMON_TYPE_GRASS")]
+    Grass,
+    #[serde(rename = "POKEMON_TYPE_GROUND")]
+    Ground,
+    #[serde(rename = "POKEMON_TYPE_ICE")]
+    Ice,
+    #[serde(rename = "POKEMON_TYPE_NORMAL")]
+    Normal,
+    #[serde(rename = "POKEMON_TYPE_POISON")]
+    Poison,
+    #[serde(rename = "POKEMON_TYPE_PSYCHIC")]
+    Psychic,
+    #[serde(rename = "POKEMON_TYPE_ROCK")]
+    Rock,
+    #[serde(rename = "POKEMON_TYPE_STEEL")]
+    Steel,
+    #[serde(rename = "POKEMON_TYPE_WATER")]
+    Water,
+}
+
+#[derive(Deserialize, Debug)]
+pub enum MonsterRarity {
+    #[serde(rename = "POKEMON_RARITY_LEGENDARY")]
+    Legendary,
+    #[serde(rename = "POKEMON_RARITY_MYTHIC")]
+    Mythic,
+}
+
 /** Root structure (not public) */
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -34,8 +83,8 @@ pub struct PokemonSettings {
     pub model_scale: Option<f32>,
     pub model_scale_v2: f32,
     #[serde(rename = "type")]
-    pub type1: String,
-    pub type2: Option<String>,
+    pub type1: MonsterType,
+    pub type2: Option<MonsterType>,
     pub camera: MonsterCamera,
     pub encounter: MonsterEncounter,
     pub stats: MonsterBaseStats,
@@ -59,7 +108,7 @@ pub struct PokemonSettings {
     pub form_change: Vec<MonsterFormChange>,
     #[serde(default)]
     pub ob_costume_evolution: Vec<String>, // "APRIL_2020_NOEVOLVE"
-    pub rarity: Option<String>, // TODO enum
+    pub rarity: Option<MonsterRarity>,
     pub pokedex_height_m: Option<f32>,
     pub pokedex_weight_kg: Option<f32>,
     pub height_std_dev: Option<f32>,
@@ -303,7 +352,7 @@ pub enum MonsterGender {
 pub struct CombatMove {
     pub unique_id: String,
     #[serde(rename = "type")]
-    pub type_: String,
+    pub type_: MonsterType,
     // Missing = no damage
     #[serde(default)]
     pub power: f32,
@@ -341,7 +390,7 @@ pub struct MoveBuffs {
 pub struct MoveSettings {
     pub movement_id: String,
     pub animation_id: i32,
-    pub pokemon_type: String,
+    pub pokemon_type: MonsterType,
     // Missing = no damage
     #[serde(default)]
     pub power: f32,

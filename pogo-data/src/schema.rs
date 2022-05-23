@@ -236,9 +236,23 @@ pub struct EvolutionQuestDisplay {
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub struct TempEvolution {
-    // TODO! Stub only
     pub temp_evo_id: String, // "TEMP_EVOLUTION_MEGA"
+    pub type_override1: MonsterType,
+    pub type_override2: Option<MonsterType>,
+    pub stats: MonsterBaseStats,
+    // Pokedex
+    pub average_height_m: f32,
+    pub average_weight_kg: f32,
+    // Visual
+    pub camera: Option<MonsterCamera>,
+    pub model_scale_v2: Option<f32>,
+    pub model_height: Option<f32>,
+    pub buddy_offset_male: Option<[f32; 3]>,
+    pub buddy_offset_female: Option<[f32; 3]>,
+    pub buddy_portrait_offset: Option<[f32; 3]>,
+    pub raid_boss_distance_offset: Option<f32>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -263,8 +277,30 @@ pub struct MonsterCamera {
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub struct MonsterEncounter {
-    // TODO! Stub only
+    pub base_capture_rate: Option<f32>,
+    pub base_flee_rate: Option<f32>,
+    pub collision_radius_m: Option<f32>,
+    pub collision_height_m: Option<f32>,
+    pub collision_head_radius_m: Option<f32>,
+    pub movement_type: Option<String>, // E.g. "MOVEMENT_JUMP"
+    pub movement_timer_s: Option<f32>,
+    pub jump_time_s: Option<f32>,
+    pub attack_timer_s: Option<f32>,
+    pub bonus_candy_capture_reward: Option<u32>,
+    pub bonus_stardust_capture_reward: Option<u32>,
+    pub attack_probability: Option<f32>,
+    pub dodge_probability: Option<f32>,
+    pub dodge_duration_s: Option<f32>,
+    pub dodge_distance: Option<f32>,
+    pub camera_distance: f32,
+    pub min_pokemon_action_frequency_s: f32,
+    pub max_pokemon_action_frequency_s: f32,
+    pub bonus_xl_candy_capture_reward: Option<u32>,
+    pub ob_shadow_form_base_capture_rate: Option<f32>,
+    pub ob_shadow_form_attack_probability: Option<f32>,
+    pub ob_shadow_form_dodge_probability: Option<f32>,
 }
 
 /** Pokemon family: pokemonFamily */

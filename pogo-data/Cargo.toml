@@ -14,6 +14,9 @@ license = "MIT"
 #categories = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+embed-data = []
+
 [dependencies]
 serde_json = "1.0.81"
 serde = { version = "1.0", features = ["derive"] }

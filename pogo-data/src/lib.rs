@@ -8,7 +8,7 @@ use crate::schema::{
 };
 
 mod json_stream;
-mod schema;
+pub mod schema;
 
 #[derive(Debug)]
 pub struct PogoData {
@@ -42,4 +42,11 @@ pub fn parse_json<R: Read>(reader: R) -> io::Result<PogoData> {
     }
 
     Ok(PogoData { monsters, families, forms, genders, moves_gym, moves_pvp })
+}
+
+#[cfg(feature = "embed-data")]
+pub fn get_embedded_data() -> PogoData {
+    let data = include_bytes!("../../data/latest.json");
+
+    parse_json(&data).expect("Embedded Pokemon data is corrupt")
 }

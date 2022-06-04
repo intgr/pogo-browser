@@ -15,5 +15,6 @@ license = "AGPL-3.0-or-later"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+pogo-data = { version = "0.0.1", path = "../pogo-data", features=['embed-data'] }
 ybc = { path = "../../ybc" }
 yew = "0.19.3"

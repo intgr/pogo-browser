@@ -48,5 +48,5 @@ pub fn parse_json<R: Read>(reader: R) -> io::Result<PogoData> {
 pub fn get_embedded_data() -> PogoData {
     let data = include_bytes!("../../data/latest.json");
 
-    parse_json(&data).expect("Embedded Pokemon data is corrupt")
+    parse_json(&data[..]).expect("Embedded Pokemon data is corrupt")
 }

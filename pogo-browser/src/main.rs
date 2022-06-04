@@ -1,46 +1,49 @@
-use ybc::NavbarFixed::Top;
-use ybc::TileCtx::{Ancestor, Child, Parent};
-use ybc::TileSize::Three;
+use monster::Monster;
+use pogo_data::get_embedded_data;
+use pogo_data::schema::PokemonSettings;
+use std::sync::Arc;
 use yew::prelude::*;
+
+mod monster;
 
 enum Msg {}
 
-struct Model {}
+struct Model {
+    mons: Vec<Arc<PokemonSettings>>,
+}
 
 impl Component for Model {
     type Message = Msg;
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Self {}
+        let data = get_embedded_data();
+        Self { mons: data.monsters.into_iter().map(Arc::new).collect() }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {}
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         // This gives us a component's "`Scope`" which allows us to send messages, etc to the component.
-        let link = ctx.link();
-        let brand = html! {<h1 style="font-size: 20pt">{"Pogo Browser"}</h1> };
+        let monsters = &self.mons;
+        let brand = html! {
+            <h1 style="font-size: 20pt">{"Pogo Browser"}</h1>
+        };
         html! {
-          <>
-          <ybc::Navbar navbrand={brand}>
-            // <ybc::NavbarItem href={"/test"}>
-            //     {"Test link"}
-            // </ybc::NavbarItem>
-          </ybc::Navbar>
-          <ybc::Container fluid={true}>
-            <ybc::Tile ctx={Ancestor}>
-              <ybc::Tile ctx={Parent} vertical={true} size={Three}>
-                {"Item 1"}
-              </ybc::Tile>
-              <ybc::Tile ctx={Parent} vertical={true} size={Three}>
-                {"Item 2"}
-              </ybc::Tile>
-            </ybc::Tile>
-          </ybc::Container>
-          </>
+            <>
+            <ybc::Navbar navbrand={brand} />
+            <ybc::Container fluid={true}>
+                <div  style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 20px">
+                    {
+                        monsters.iter().map(|item| {
+                            html!{<Monster mon={item.clone()} />}
+                        }).collect::<Html>()
+                    }
+                </div>
+            </ybc::Container>
+            </>
         }
     }
 }

@@ -19,7 +19,14 @@ impl Component for Model {
 
     fn create(_ctx: &Context<Self>) -> Self {
         let data = get_embedded_data();
-        Self { mons: data.monsters.into_iter().map(Arc::new).collect() }
+        Self {
+            mons: data
+                .monsters
+                .into_iter()
+                .filter(|p| p.form.is_none())
+                .map(Arc::new)
+                .collect(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {

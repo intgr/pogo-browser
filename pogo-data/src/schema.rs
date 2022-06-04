@@ -43,11 +43,13 @@ pub enum MonsterType {
 }
 
 #[derive(Deserialize, Debug)]
-pub enum MonsterRarity {
-    #[serde(rename = "POKEMON_RARITY_LEGENDARY")]
+pub enum MonsterClass {
+    #[serde(rename = "POKEMON_CLASS_LEGENDARY")]
     Legendary,
-    #[serde(rename = "POKEMON_RARITY_MYTHIC")]
+    #[serde(rename = "POKEMON_CLASS_MYTHIC")]
     Mythic,
+    #[serde(rename = "POKEMON_CLASS_ULTRA_BEAST")]
+    UltraBeast,
 }
 
 /** Root structure (not public) */
@@ -108,7 +110,7 @@ pub struct PokemonSettings {
     pub form_change: Vec<MonsterFormChange>,
     #[serde(default)]
     pub ob_costume_evolution: Vec<String>, // "APRIL_2020_NOEVOLVE"
-    pub rarity: Option<MonsterRarity>,
+    pub pokemon_class: Option<MonsterClass>,
     pub pokedex_height_m: Option<f32>,
     pub pokedex_weight_kg: Option<f32>,
     pub height_std_dev: Option<f32>,
@@ -343,7 +345,7 @@ pub struct FormSettings {
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MonsterForm {
-    pub form: String,
+    pub form: Option<String>,
     #[serde(default)]
     pub is_costume: bool,
     pub asset_bundle_value: Option<i32>,

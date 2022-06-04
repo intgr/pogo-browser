@@ -5,6 +5,7 @@ use std::sync::Arc;
 use yew::prelude::*;
 
 mod monster;
+mod types;
 
 enum Msg {}
 

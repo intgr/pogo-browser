@@ -2,7 +2,7 @@ use serde::de::IgnoredAny;
 use serde::Deserialize;
 
 /* Reusable enums */
-#[derive(Deserialize, Debug, PartialEq, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, PartialEq, PartialOrd, Hash, Clone, Copy)]
 pub enum MonsterType {
     #[serde(rename = "POKEMON_TYPE_BUG")]
     Bug,

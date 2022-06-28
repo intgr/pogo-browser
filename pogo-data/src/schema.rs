@@ -240,13 +240,13 @@ pub struct EvolutionQuestDisplay {
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct TempEvolution {
-    pub temp_evo_id: String, // "TEMP_EVOLUTION_MEGA"
-    pub type_override1: MonsterType,
+    pub temp_evo_id: Option<String>, // "TEMP_EVOLUTION_MEGA"
+    pub type_override1: Option<MonsterType>,
     pub type_override2: Option<MonsterType>,
-    pub stats: MonsterBaseStats,
+    pub stats: Option<MonsterBaseStats>,
     // Pokedex
-    pub average_height_m: f32,
-    pub average_weight_kg: f32,
+    pub average_height_m: Option<f32>,
+    pub average_weight_kg: Option<f32>,
     // Visual
     pub camera: Option<MonsterCamera>,
     pub model_scale_v2: Option<f32>,

@@ -7,7 +7,6 @@ use crate::schema::{
     PokemonSettings, TemplateData,
 };
 
-mod json_stream;
 pub mod schema;
 
 #[derive(Debug)]
@@ -28,8 +27,7 @@ pub fn parse_json<R: Read>(reader: R) -> io::Result<PogoData> {
     let mut moves_gym: Vec<MoveSettings> = Vec::new();
     let mut moves_pvp: Vec<CombatMove> = Vec::new();
 
-    for result in iter_json_array::<GameMasterTemplate, R>(reader) {
-        let item = result?;
+    for item in serde_json::from_reader::<R, Vec<GameMasterTemplate>>(reader)?.into_iter() {
         match item.data {
             TemplateData { pokemon_settings: Some(val), .. } => monsters.push(val),
             TemplateData { pokemon_family: Some(val), .. } => families.push(val),

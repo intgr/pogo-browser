@@ -4,3 +4,4 @@ Cargo.lock
 /.idea
 /data/*.csv
 /data/*.json
+dist

@@ -4,6 +4,7 @@ use pogo_data::schema::PokemonSettings;
 use std::sync::Arc;
 use yew::prelude::*;
 
+mod common;
 mod monster;
 mod types;
 

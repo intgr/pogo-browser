@@ -1,3 +1,4 @@
+use derivative::Derivative;
 use serde::de::IgnoredAny;
 use serde::Deserialize;
 
@@ -77,7 +78,9 @@ pub(crate) struct TemplateData {
 }
 
 /** Pokemon: pokemonSettings */
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Derivative)]
+#[derivative(Debug)]
+#[allow(dead_code)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct PokemonSettings {
@@ -99,7 +102,6 @@ pub struct PokemonSettings {
     pub animation_time: Vec<f32>,
     #[serde(default)]
     pub evolution_ids: Vec<String>,
-    pub evolution_pips: Option<u32>,       // XXX always value 1
     pub parent_pokemon_id: Option<String>, // Pokemon name
     pub candy_to_evolve: Option<u32>,
     #[serde(default)]
@@ -146,8 +148,19 @@ pub struct PokemonSettings {
     pub form: Option<String>,
     #[serde(default)]
     pub disable_transfer_to_pokemon_home: bool,
+
+    // Useless fields
+    #[cfg(feature = "fields-useless")]
+    pub evolution_pips: Option<u32>, // Always has value 1
+    #[cfg(not(feature = "fields-useless"))]
     #[serde(default)]
-    pub ob_preview_pokemon_setting: IgnoredAny,
+    #[derivative(Debug = "ignore")]
+    evolution_pips: IgnoredAny,
+
+    // Unmapped fields
+    #[serde(default)]
+    #[derivative(Debug = "ignore")]
+    ob_preview_pokemon_setting: IgnoredAny,
 }
 
 #[derive(Deserialize, Debug)]

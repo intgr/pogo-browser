@@ -99,7 +99,6 @@ pub struct PokemonSettings {
     pub animation_time: Vec<f32>,
     #[serde(default)]
     pub evolution_ids: Vec<String>,
-    pub evolution_pips: Option<u32>,       // XXX always value 1
     pub parent_pokemon_id: Option<String>, // Pokemon name
     pub candy_to_evolve: Option<u32>,
     #[serde(default)]
@@ -146,8 +145,17 @@ pub struct PokemonSettings {
     pub form: Option<String>,
     #[serde(default)]
     pub disable_transfer_to_pokemon_home: bool,
+
+    // Useless fields
+    #[cfg(fields-useless)]
+    pub evolution_pips: Option<u32>, // XXX always value 1
+    #[cfg(not(fields-useless))]
     #[serde(default)]
-    pub ob_preview_pokemon_setting: IgnoredAny,
+    evolution_pips: IgnoredAny,
+
+    // Unmapped fields
+    #[serde(default)]
+    ob_preview_pokemon_setting: IgnoredAny,
 }
 
 #[derive(Deserialize, Debug)]

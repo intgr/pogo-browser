@@ -16,6 +16,22 @@ impl PartialEq for MonsterProps {
     }
 }
 
+fn render_moves_list(title: &'static str, moves: &Vec<String>) -> Html {
+    // TODO: Display the type of moves too!
+    html! {
+        <>
+            <h5>{ title }</h5>
+            <ul>
+                {
+                    moves.iter().map(|item| {
+                        html! { <li>{ pretty_name(item) }</li> }
+                    }).collect::<Html>()
+                }
+            </ul>
+        </>
+    }
+}
+
 #[function_component(Monster)]
 pub fn render_monster(props: &MonsterProps) -> Html {
     let mon: &PokemonSettings = props.mon.borrow();
@@ -34,6 +50,10 @@ pub fn render_monster(props: &MonsterProps) -> Html {
                 <TypePair typ1={mon.type1} typ2={mon.type2} />
             </p>
             { stats }
+            { render_moves_list("Fast moves", &mon.quick_moves) }
+            { render_moves_list("Elite fast moves", &mon.elite_quick_move) }
+            { render_moves_list("Charged moves", &mon.cinematic_moves) }
+            { render_moves_list("Elite charged moves", &mon.elite_cinematic_move) }
         </div>
     }
 }

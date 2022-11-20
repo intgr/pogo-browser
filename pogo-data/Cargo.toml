@@ -20,5 +20,5 @@ fields-useless = []
 
 [dependencies]
 derivative = "2.2.0"
-serde_json = "1.0.81"
+serde_json = "1.0.88"
 serde = { version = "1.0", features = ["derive"] }
